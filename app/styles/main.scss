@@ -1,15 +1,9 @@
+@import './terminal';
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+
 body {
-    background-color: black;
-    color: #fff;
+  font-family: 'Source Code Pro', monospace;
+  background-color: #000000;
+  color: #fff;
 }
-
-div {
-    box-sizing: border-box;
-}
-
-.grid {
-    display: flex;
-    .col {
-        flex: 1;
-    }
-} 

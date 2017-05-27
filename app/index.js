@@ -1,39 +1,42 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { middleware as reduxPackMiddleware } from 'redux-pack'
 import App from './components/App'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import Home from './containers/Home';
-
-require('./styles/main.scss');
+import NotFound from './containers/NotFound';
+import Terminal from './containers/Terminal/Terminal';
+import './styles/main.scss';
+import terminalReducer from './reducers/terminal'
+import fileSystemReducer from './reducers/fileSystem'
 
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom'
 
-const myReducer = (state = {things: 'hello!'}, action = {}) => {
-    switch(action.type){
-        default:
-            return state
-    }
-} 
+const reducers = combineReducers({
+  terminal: terminalReducer,
+  fileSystem: fileSystemReducer
+})
 
-const store = createStore(myReducer, applyMiddleware(thunk, reduxPackMiddleware))
+export const store = createStore(reducers, applyMiddleware(thunk, reduxPackMiddleware))
 
 ReactDOM.render(
-    <Router>
-        <Provider store={store}>
-            <div>
-            <Route exact path="/"  component={Home} />
-            <Route path="/another" component={App} />
-            </div>
-        </Provider>
-    </Router>
+  <Router>
+    <Provider store={store}>
+      <App>
+        <Switch>
+          <Route exact path="/"  component={Terminal} />
+          <Route component={NotFound} />
+        </Switch>
+      </App>
+    </Provider>
+  </Router>
 , document.getElementById('app'))
 
 

@@ -1,0 +1,18 @@
+
+
+$default: #3d3d3d;
+$error: red;
+$success: #00e820;
+$warning: #d3d3d3;
+$note: #d3d3d3;
+$prompt: #d3d3d3;
+
+
+.terminal-log {
+  &.default  { color: $default}
+  &.error    { color: $error}
+  &.success  { color: $success}
+  &.warning  { color: $warning}
+  &.note     { color: $note}
+  &.prompt   { color: $prompt}
+}
