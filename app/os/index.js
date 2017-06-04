@@ -6,6 +6,26 @@ import {
   defaultLog
 } from '../constants'
 import echo from './programs/echo'
+import help from './programs/help'
+
+const programMap = {
+  echo: echo,
+  help: help
+}
+
+export const program = (cmd) => {
+  const expression = cmd.msg.split(' ')
+  const target = expression[0]
+  const args = expression.splice(1, expression.length - 1)
+  const dispatchInterface = terminalInterface(store.dispatch)
+  const exe = programMap[target]
+
+  if(exe) {
+    exe(dispatchInterface, ...args)
+  } else if(target !== '') {
+    dispatchInterface.error('Command not found')
+  }
+}
 
 export const terminalInterface = (dispatch) => {
   return {
@@ -42,24 +62,4 @@ export const fileSystemInterface = (dispatch) => {
     }
   }
 }
-
-const programMap = {
-  echo: echo
-}
-
-export const program = (cmd) => {
-  const expression = cmd.msg.split(' ')
-  const target = expression[0]
-  const dispatchInterface = terminalInterface(store.dispatch)
-  const exe = programMap[target]
-
-  if(exe) {
-    exe(dispatchInterface, expression[1])
-  } else if(target !== '') {
-    dispatchInterface.error('Command not found')
-  }
-}
-
-
-
 

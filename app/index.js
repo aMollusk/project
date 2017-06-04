@@ -6,11 +6,11 @@ import { middleware as reduxPackMiddleware } from 'redux-pack'
 import App from './components/App'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import NotFound from './containers/NotFound';
-import Terminal from './containers/Terminal/Terminal';
-import './styles/main.scss';
+import NotFound from './containers/NotFound'
+import Terminal from './containers/Terminal/Terminal'
 import terminalReducer from './reducers/terminal'
 import fileSystemReducer from './reducers/fileSystem'
+import './styles/main.scss'
 
 import {
   BrowserRouter as Router,

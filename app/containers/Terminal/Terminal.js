@@ -3,23 +3,29 @@ import { connect } from 'react-redux';
 import { command } from '../../actions/terminal'
 
 const keyDown = function(e) {
-  if(e.code === 'ArrowUp'){
-    const validHistory = this.props.logs.filter(({msg, owner})=>{
-      return msg !== '' && owner == 'user'
-    })
-    if(this.state.historyStep <= validHistory.length){
-      const historyCmd = validHistory[validHistory.length - this.state.historyStep].msg
-      this.setState({
-        input: historyCmd,
-        historyStep: this.state.historyStep + 1 
-      })
-    } else {
-      const historyCmd = validHistory[validHistory.length - 1].msg
-      this.setState({
-        input: historyCmd,
-        historyStep: 1
-      })
+  const validHistory = this.props.logs.filter(({msg, owner})=>{
+    return msg !== '' && owner == 'user'
+  })
+  let step = this.state.historyStep
+  
+  if(e.code === 'ArrowUp' || e.code === 'ArrowDown'){
+    if(e.code === 'ArrowUp'){
+      if(step < validHistory.length){
+        step++;
+      } else {
+        step = 1;
+      }
+    } else if (e.code === 'ArrowDown'){
+      if(step > 1){
+        step--;
+      } else {
+        step = validHistory.length;
+      }
     }
+    this.setState({
+      historyStep: step,
+      input: validHistory[validHistory.length - step].msg
+    })
   }
 }
 
@@ -29,7 +35,7 @@ class Terminal extends React.Component {
     this.keyDown = keyDown.bind(this)
     this.state = {
       input: '',
-      historyStep: 1
+      historyStep: 0
     }
   }
 
@@ -40,7 +46,6 @@ class Terminal extends React.Component {
   }
 
   componentDidUpdate = (prevState, prevProps) => {
-    console.log(this.props.processing)
     if(this.props.processing === false){
       this.input.focus()
     }
@@ -49,7 +54,7 @@ class Terminal extends React.Component {
   inputChange = (e) => {
     this.setState({
       input: e.target.value,
-      historyStep: 1
+      historyStep: 0
     })
   }
 

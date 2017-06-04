@@ -7,7 +7,6 @@ import {
 
 import { program } from '../os'
 
-
 export const command = (cmd) => {
   const log = {
     ...defaultLog,

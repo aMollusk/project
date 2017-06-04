@@ -7464,9 +7464,9 @@ var _reactRedux=__webpack_require__(99);
 var _reduxThunk=__webpack_require__(267);var _reduxThunk2=_interopRequireDefault(_reduxThunk);
 var _NotFound=__webpack_require__(116);var _NotFound2=_interopRequireDefault(_NotFound);
 var _Terminal=__webpack_require__(117);var _Terminal2=_interopRequireDefault(_Terminal);
-__webpack_require__(282);
 var _terminal=__webpack_require__(120);var _terminal2=_interopRequireDefault(_terminal);
 var _fileSystem=__webpack_require__(287);var _fileSystem2=_interopRequireDefault(_fileSystem);
+__webpack_require__(282);
 
 var _reactRouterDom=__webpack_require__(240);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{'default':obj};}
 
@@ -12007,7 +12007,6 @@ Object.defineProperty(exports,"__esModule",{value:true});exports.command=undefin
 
 var _os=__webpack_require__(285);
 
-
 var command=exports.command=function command(cmd){
 var log=_extends({},_constants.defaultLog,
 
@@ -12065,23 +12064,29 @@ var _reactRedux=__webpack_require__(99);
 var _terminal=__webpack_require__(114);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self,call){if(!self){throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call&&(typeof call==="object"||typeof call==="function")?call:self;}function _inherits(subClass,superClass){if(typeof superClass!=="function"&&superClass!==null){throw new TypeError("Super expression must either be null or a function, not "+typeof superClass);}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__=superClass;}
 
 var keyDown=function keyDown(e){
-if(e.code==='ArrowUp'){
 var validHistory=this.props.logs.filter(function(_ref){var msg=_ref.msg,owner=_ref.owner;
 return msg!==''&&owner=='user';
 });
-if(this.state.historyStep<=validHistory.length){
-var historyCmd=validHistory[validHistory.length-this.state.historyStep].msg;
-this.setState({
-input:historyCmd,
-historyStep:this.state.historyStep+1});
+var step=this.state.historyStep;
 
+if(e.code==='ArrowUp'||e.code==='ArrowDown'){
+if(e.code==='ArrowUp'){
+if(step<validHistory.length){
+step++;
 }else{
-var _historyCmd=validHistory[validHistory.length-1].msg;
-this.setState({
-input:_historyCmd,
-historyStep:1});
-
+step=1;
 }
+}else if(e.code==='ArrowDown'){
+if(step>1){
+step--;
+}else{
+step=validHistory.length;
+}
+}
+this.setState({
+historyStep:step,
+input:validHistory[validHistory.length-step].msg});
+
 }
 };var
 
@@ -12102,7 +12107,6 @@ document.addEventListener('keydown',_this.keyDown);
 };_this.
 
 componentDidUpdate=function(prevState,prevProps){
-console.log(_this.props.processing);
 if(_this.props.processing===false){
 _this.input.focus();
 }
@@ -12111,7 +12115,7 @@ _this.input.focus();
 inputChange=function(e){
 _this.setState({
 input:e.target.value,
-historyStep:1});
+historyStep:0});
 
 };_this.
 
@@ -12121,33 +12125,33 @@ _this.setState({
 input:''});
 
 _this.props.dispatch((0,_terminal.command)({msg:_this.state.input,owner:'user'}));
-};_this.keyDown=keyDown.bind(_this);_this.state={input:'',historyStep:1};return _this;}_createClass(Terminal,[{key:'render',value:function(){function render()
+};_this.keyDown=keyDown.bind(_this);_this.state={input:'',historyStep:0};return _this;}_createClass(Terminal,[{key:'render',value:function(){function render()
 
 {var _this2=this;
 return(
-_react2['default'].createElement('div',{className:'terminal',onClick:function(){function onClick(){_this2.input.focus();}return onClick;}(),__source:{fileName:_jsxFileName,lineNumber:66}},
+_react2['default'].createElement('div',{className:'terminal',onClick:function(){function onClick(){_this2.input.focus();}return onClick;}(),__source:{fileName:_jsxFileName,lineNumber:71}},
 this.props.logs.map(function(log,index){var
 msg=log.msg;
 return(
 _react2['default'].createElement('div',{
 className:'terminal-log '+(log.owner==='user'?'userLog':'')+' '+String(log.color),
-key:'log-'+String(index),__source:{fileName:_jsxFileName,lineNumber:70}},
+key:'log-'+String(index),__source:{fileName:_jsxFileName,lineNumber:75}},
 
 msg));
 
 
 }),
-_react2['default'].createElement('form',{className:'prompt '+(this.props.processing?'loading':''),__source:{fileName:_jsxFileName,lineNumber:78}},
+_react2['default'].createElement('form',{className:'prompt '+(this.props.processing?'loading':''),__source:{fileName:_jsxFileName,lineNumber:83}},
 _react2['default'].createElement('input',{
 disabled:this.props.processing,
 ref:function(){function ref(me){_this2.input=me;}return ref;}(),
 value:this.state.input,
-onChange:this.inputChange,__source:{fileName:_jsxFileName,lineNumber:79}}),
+onChange:this.inputChange,__source:{fileName:_jsxFileName,lineNumber:84}}),
 
-_react2['default'].createElement('button',{onClick:this.submitForm,__source:{fileName:_jsxFileName,lineNumber:85}},'Submit'),
+_react2['default'].createElement('button',{onClick:this.submitForm,__source:{fileName:_jsxFileName,lineNumber:90}},'Submit'),
 this.props.processing&&
-_react2['default'].createElement('div',{__source:{fileName:_jsxFileName,lineNumber:87}},
-_react2['default'].createElement('h1',{__source:{fileName:_jsxFileName,lineNumber:88}},'loading')))));
+_react2['default'].createElement('div',{__source:{fileName:_jsxFileName,lineNumber:92}},
+_react2['default'].createElement('h1',{__source:{fileName:_jsxFileName,lineNumber:93}},'loading')))));
 
 
 
@@ -28089,7 +28093,7 @@ exports = module.exports = __webpack_require__(121)(true);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);", ""]);
 
 // module
-exports.push([module.i, ".terminal-log.default {\n  color: #3d3d3d; }\n\n.terminal-log.error {\n  color: red; }\n\n.terminal-log.success {\n  color: #00e820; }\n\n.terminal-log.warning {\n  color: #d3d3d3; }\n\n.terminal-log.note {\n  color: #d3d3d3; }\n\n.terminal-log.prompt {\n  color: #d3d3d3; }\n\n.terminal {\n  font-size: 14px;\n  padding: 50px; }\n  .terminal .terminal-log {\n    height: 20px;\n    line-height: 20px; }\n    .terminal .terminal-log.userLog:before {\n      content: '>';\n      color: #fff;\n      margin-right: 10px; }\n  .terminal .prompt {\n    width: 100%;\n    display: flex;\n    height: 20px;\n    line-height: 20px; }\n    .terminal .prompt.loading:before {\n      content: ''; }\n    .terminal .prompt:before {\n      content: '>';\n      margin-right: 10px; }\n    .terminal .prompt input {\n      padding: 0;\n      margin: 0;\n      flex: 1;\n      font-family: 'Source Code Pro', monospace;\n      background: transparent;\n      border: 0;\n      color: #fff;\n      font-size: 14px; }\n      .terminal .prompt input:focus {\n        outline: none; }\n  .terminal button {\n    display: none; }\n\nbody {\n  font-family: 'Source Code Pro', monospace;\n  background-color: #000000;\n  color: #fff; }\n", "", {"version":3,"sources":["/Users/kieran/dev/project/app/styles/app/styles/terminalColors.scss","/Users/kieran/dev/project/app/styles/app/styles/terminal.scss","/Users/kieran/dev/project/app/styles/app/styles/main.scss"],"names":[],"mappings":"AAUA;EACe,eATE,EASe;;AADhC;EAEe,WATJ,EASmB;;AAF9B;EAGe,eATE,EASe;;AAHhC;EAIe,eATE,EASe;;AAJhC;EAKe,eATD,EASe;;AAL7B;EAMe,eATC,EASe;;ACd/B;EACE,gBAAe;EACf,cAAa,EA6Cd;EA/CD;IAII,aAAY;IACZ,kBAAiB,EAMlB;IAXH;MAOM,aAAY;MACZ,YAAW;MACX,mBAAkB,EACnB;EAVL;IAaI,YAAW;IACX,cAAa;IACb,aAAY;IACZ,kBAAiB,EA0BlB;IA1CH;MAoBQ,YAAW,EACZ;IArBP;MAwBM,aAAY;MACZ,mBAAkB,EACnB;IA1BL;MA4BM,WAAU;MACV,UAAS;MAET,QAAO;MACP,0CAAyC;MACzC,wBAAuB;MACvB,UAAS;MACT,YAAW;MACX,gBAAe,EAKhB;MAzCL;QAuCQ,cAAa,EACd;EAxCP;IA6CI,cAAa,EACd;;AC5CH;EACE,0CAAyC;EACzC,0BAAyB;EACzB,YAAW,EACZ","file":"main.scss","sourcesContent":["\n\n$default: #3d3d3d;\n$error: red;\n$success: #00e820;\n$warning: #d3d3d3;\n$note: #d3d3d3;\n$prompt: #d3d3d3;\n\n\n.terminal-log {\n  &.default  { color: $default}\n  &.error    { color: $error}\n  &.success  { color: $success}\n  &.warning  { color: $warning}\n  &.note     { color: $note}\n  &.prompt   { color: $prompt}\n}","@import './terminalColors';\n\n.terminal {\n  font-size: 14px;\n  padding: 50px;\n  .terminal-log {\n    height: 20px;\n    line-height: 20px;\n    &.userLog:before {\n      content: '>';\n      color: #fff;\n      margin-right: 10px;\n    }\n  }\n  .prompt {\n    width: 100%;\n    display: flex;\n    height: 20px;\n    line-height: 20px;\n\n    &.loading {\n      &:before {\n        content: '';\n      }\n    }\n    &:before {\n      content: '>';\n      margin-right: 10px;\n    }\n    input {\n      padding: 0;\n      margin: 0;\n\n      flex: 1;\n      font-family: 'Source Code Pro', monospace;\n      background: transparent;\n      border: 0;\n      color: #fff;\n      font-size: 14px;\n\n      &:focus {\n        outline: none;\n      }\n    }\n  }\n  \n  button {\n    display: none;\n  }\n}","@import './terminal';\n@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');\n\n\nbody {\n  font-family: 'Source Code Pro', monospace;\n  background-color: #000000;\n  color: #fff;\n}"],"sourceRoot":""}]);
+exports.push([module.i, ".terminal-log.default {\n  color: #fff; }\n\n.terminal-log.error {\n  color: red; }\n\n.terminal-log.success {\n  color: #00e820; }\n\n.terminal-log.warning {\n  color: #d3d3d3; }\n\n.terminal-log.note {\n  color: #d3d3d3; }\n\n.terminal-log.prompt {\n  color: #d3d3d3; }\n\n.terminal {\n  font-size: 18px;\n  padding: 50px;\n  min-height: 70vh; }\n  .terminal .terminal-log {\n    height: 25px;\n    line-height: 25px; }\n    .terminal .terminal-log.userLog:before {\n      content: '>';\n      color: #fff;\n      margin-right: 10px; }\n  .terminal .prompt {\n    width: 100%;\n    display: flex;\n    height: 25px;\n    line-height: 25px; }\n    .terminal .prompt.loading:before {\n      content: ''; }\n    .terminal .prompt:before {\n      content: '>';\n      margin-right: 10px; }\n    .terminal .prompt input {\n      padding: 0;\n      margin: 0;\n      flex: 1;\n      font-family: 'Source Code Pro', monospace;\n      background: transparent;\n      border: 0;\n      color: #fff;\n      font-size: 18px; }\n      .terminal .prompt input:focus {\n        outline: none; }\n  .terminal button {\n    display: none; }\n\nbody {\n  font-family: 'Source Code Pro', monospace;\n  background-color: #190b16;\n  color: #fff; }\n", "", {"version":3,"sources":["/Users/kieran/dev/project/app/styles/app/styles/terminalColors.scss","/Users/kieran/dev/project/app/styles/app/styles/terminal.scss","/Users/kieran/dev/project/app/styles/app/styles/main.scss"],"names":[],"mappings":"AAUA;EACe,YATD,EASkB;;AADhC;EAEe,WATJ,EASmB;;AAF9B;EAGe,eATE,EASe;;AAHhC;EAIe,eATE,EASe;;AAJhC;EAKe,eATD,EASe;;AAL7B;EAMe,eATC,EASe;;ACd/B;EACE,gBAAe;EACf,cAAa;EACb,iBAAgB,EA4CjB;EA/CD;IAKI,aAAY;IACZ,kBAAiB,EAMlB;IAZH;MAQM,aAAY;MACZ,YAAW;MACX,mBAAkB,EACnB;EAXL;IAcI,YAAW;IACX,cAAa;IACb,aAAY;IACZ,kBAAiB,EAyBlB;IA1CH;MAqBQ,YAAW,EACZ;IAtBP;MAyBM,aAAY;MACZ,mBAAkB,EACnB;IA3BL;MA6BM,WAAU;MACV,UAAS;MACT,QAAO;MACP,0CAAyC;MACzC,wBAAuB;MACvB,UAAS;MACT,YAAW;MACX,gBAAe,EAKhB;MAzCL;QAuCQ,cAAa,EACd;EAxCP;IA6CI,cAAa,EACd;;AC5CH;EACE,0CAAyC;EACzC,0BAAyB;EACzB,YAAW,EACZ","file":"main.scss","sourcesContent":["\n\n$default: #fff;\n$error: red;\n$success: #00e820;\n$warning: #d3d3d3;\n$note: #d3d3d3;\n$prompt: #d3d3d3;\n\n\n.terminal-log {\n  &.default  { color: $default}\n  &.error    { color: $error}\n  &.success  { color: $success}\n  &.warning  { color: $warning}\n  &.note     { color: $note}\n  &.prompt   { color: $prompt}\n}","@import './terminalColors';\n\n.terminal {\n  font-size: 18px;\n  padding: 50px;\n  min-height: 70vh;\n  .terminal-log {\n    height: 25px;\n    line-height: 25px;\n    &.userLog:before {\n      content: '>';\n      color: #fff;\n      margin-right: 10px;\n    }\n  }\n  .prompt {\n    width: 100%;\n    display: flex;\n    height: 25px;\n    line-height: 25px;\n\n    &.loading {\n      &:before {\n        content: '';\n      }\n    }\n    &:before {\n      content: '>';\n      margin-right: 10px;\n    }\n    input {\n      padding: 0;\n      margin: 0;\n      flex: 1;\n      font-family: 'Source Code Pro', monospace;\n      background: transparent;\n      border: 0;\n      color: #fff;\n      font-size: 18px;\n\n      &:focus {\n        outline: none;\n      }\n    }\n  }\n  \n  button {\n    display: none;\n  }\n}","@import './terminal';\n@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');\n\n\nbody {\n  font-family: 'Source Code Pro', monospace;\n  background-color: #190b16;\n  color: #fff;\n}"],"sourceRoot":""}]);
 
 // exports
 
@@ -28495,14 +28499,34 @@ module.exports = __webpack_require__(66);
 /* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
-Object.defineProperty(exports,"__esModule",{value:true});exports.program=exports.fileSystemInterface=exports.terminalInterface=undefined;var _extends=Object.assign||function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};var _index=__webpack_require__(66);
+Object.defineProperty(exports,"__esModule",{value:true});exports.fileSystemInterface=exports.terminalInterface=exports.program=undefined;var _extends=Object.assign||function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};var _index=__webpack_require__(66);
 var _constants=__webpack_require__(38);
 
 
 
 
 
-var _echo=__webpack_require__(286);var _echo2=_interopRequireDefault(_echo);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{'default':obj};}
+var _echo=__webpack_require__(286);var _echo2=_interopRequireDefault(_echo);
+var _help=__webpack_require__(288);var _help2=_interopRequireDefault(_help);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{'default':obj};}function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i];}return arr2;}else{return Array.from(arr);}}
+
+var programMap={
+echo:_echo2['default'],
+help:_help2['default']};
+
+
+var program=exports.program=function program(cmd){
+var expression=cmd.msg.split(' ');
+var target=expression[0];
+var args=expression.splice(1,expression.length-1);
+var dispatchInterface=terminalInterface(_index.store.dispatch);
+var exe=programMap[target];
+
+if(exe){
+exe.apply(undefined,[dispatchInterface].concat(_toConsumableArray(args)));
+}else if(target!==''){
+dispatchInterface.error('Command not found');
+}
+};
 
 var terminalInterface=exports.terminalInterface=function terminalInterface(dispatch){
 return{
@@ -28540,38 +28564,16 @@ return 0;
 
 };
 
-var programMap={
-echo:_echo2['default']};
-
-
-var program=exports.program=function program(cmd){
-var expression=cmd.msg.split(' ');
-var target=expression[0];
-var dispatchInterface=terminalInterface(_index.store.dispatch);
-var exe=programMap[target];
-
-if(exe){
-exe(dispatchInterface,expression[1]);
-}else if(target!==''){
-dispatchInterface.error('Command not found');
-}
-};
-
 /***/ }),
 /* 286 */
 /***/ (function(module, exports) {
 
 Object.defineProperty(exports,"__esModule",{value:true});exports['default']=
-echo=function echo(term,arg){
+echo=function echo(term){
+var argArr=Array.from(arguments);
+var args=argArr.splice(1,argArr.length-1);
 
-term.logArray([
-{msg:'kieran',color:'success',delay:500},
-{msg:'is',color:'error',delay:500},
-{msg:'amazing',color:'success',delay:500},
-{msg:'did',color:'error',delay:500},
-{msg:'you',color:'success',delay:500},
-{msg:'know',color:'error',delay:500}]);
-
+term.log({msg:args.join(' '),color:'success'});
 };
 
 /***/ }),
@@ -28585,6 +28587,20 @@ switch(action.type){
 case'lol':
 default:
 return _extends({},state);}
+
+};
+
+/***/ }),
+/* 288 */
+/***/ (function(module, exports) {
+
+Object.defineProperty(exports,"__esModule",{value:true});exports['default']=
+function(term){
+term.logArray([
+{msg:'Hey is looks like you\'ve called for help',color:'success',delay:100},
+{msg:'Ya dork',color:'error',delay:100},
+{msg:'You\'re not very smart hey?',color:'success',delay:100},
+{msg:'We\'ll sort you out',color:'error',delay:100}]);
 
 };
 
